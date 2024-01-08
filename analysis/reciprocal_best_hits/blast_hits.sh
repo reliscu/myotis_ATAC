@@ -1,7 +1,10 @@
 ## Make reference DB
 
 for ea in *fa; do
-   makeblastdb -in /Users/rebecca/sudmant/data/myotis/genomes/bat_genomes/mMyoCai1.cleaned.hapheader.fa -parse_seqids -dbtype nucl -out mMyoCai
+   makeblastdb -in /Users/rebecca/sudmant/data/myotis/genomes/bat_genomes/mMyoCai1.cleaned.hapheader.fa \
+    -parse_seqids \
+    -dbtype nucl \
+    -out mMyoCai
 done
 
 ## Make query sequence (BED -> FASTA):
