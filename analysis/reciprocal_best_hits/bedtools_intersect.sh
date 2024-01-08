@@ -14,8 +14,7 @@ for spec1 in ${species[@]}; do
 
             $bedtools2 intersect -wb \
                 -a ${spec1}_vs_${spec2}_positions_target.bed \
-                -b ${spec1}_vs_${spec2}_positions_query.bed \
-                > ${spec1}_vs_${spec2}_positions_intersect.bed
+                -b ${spec1}_vs_${spec2}_positions_query.bed > ${spec1}_vs_${spec2}_positions_intersect.bed
 
         fi
 
