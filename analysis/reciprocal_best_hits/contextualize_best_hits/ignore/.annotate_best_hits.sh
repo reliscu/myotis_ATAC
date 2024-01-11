@@ -26,8 +26,8 @@ for ea in *csv; do
     sed -i.backup "s/SCAF/SUPER/g" $gff2
   fi
 
-  $bedtools2 intersect -wb -a $gff1 -b spec1.bed > ../../contextualize_best_hits/results/${spec1}_${spec1}_vs_${spec2}_best_hits_gene_annotations.tsv
-  $bedtools2 intersect -wb -a $gff2 -b spec2.bed > ../../contextualize_best_hits/results/${spec2}_${spec1}_vs_${spec2}_best_hits_gene_annotations.tsv 
+  $bedtools2 intersect -wb -a $gff1 -b spec1.bed > ../../contextualize_best_hits/resources/${spec1}_${spec1}_vs_${spec2}_best_hits_gene_annotations.tsv
+  $bedtools2 intersect -wb -a $gff2 -b spec2.bed > ../../contextualize_best_hits/resources/${spec2}_${spec1}_vs_${spec2}_best_hits_gene_annotations.tsv 
   
   ## Cross ref. reciprocal sequences with TEs: 
 
@@ -42,9 +42,11 @@ for ea in *csv; do
     awk 'NR>3{gsub("SCAF", "SUPER", $5); print $5, $6, $7, $1, $2, $9, $11}' OFS='\t' $anno2 > ../../contextualize_best_hits/resources/${spec2}_TEs.bed
   fi
 
-  $bedtools2 intersect -wb -a ../../contextualize_best_hits/resources/${spec1}_TEs.bed -b spec1.bed > ../../contextualize_best_hits/results/${spec1}_${spec1}_vs_${spec2}_best_hits_TE_annotations.tsv
-  $bedtools2 intersect -wb -a ../../contextualize_best_hits/resources/${spec2}_TEs.bed -b spec2.bed > ../../contextualize_best_hits/results/${spec2}_${spec1}_vs_${spec2}_best_hits_TE_annotations.tsv
+  $bedtools2 intersect -wb -a ../../contextualize_best_hits/resources/${spec1}_TEs.bed -b spec1.bed > ../../contextualize_best_hits/resources/${spec1}_${spec1}_vs_${spec2}_best_hits_TE_annotations.tsv
+  $bedtools2 intersect -wb -a ../../contextualize_best_hits/resources/${spec2}_TEs.bed -b spec2.bed > ../../contextualize_best_hits/resources/${spec2}_${spec1}_vs_${spec2}_best_hits_TE_annotations.tsv
 
   rm spec1.bed spec2.bed
 
 done
+
+
