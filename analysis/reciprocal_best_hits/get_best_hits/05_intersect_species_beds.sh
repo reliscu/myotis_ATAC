@@ -1,6 +1,6 @@
-cd /Users/rebecca/sudmant/analyses/myotis/analysis/reciprocal_best_hits/resources/beds
+cd /Users/rebecca/sudmant/analyses/myotis/analysis/reciprocal_best_hits/get_best_hits/resources/beds
 
-species=($(awk -F"," 'NR>1 {print $2}' ../../../../data/myotis_meta.csv)) 
+species=($(awk -F"," 'NR>1 {print $2}' ../../../../../data/myotis_meta.csv)) 
 
 bedtools2=/Users/rebecca/programs/bedtools2/bin/bedtools
 

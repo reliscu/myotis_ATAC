@@ -10,7 +10,7 @@ for ea in *csv; do
   spec2=$(awk -F"," 'NR==2{print $6}' $ea | sed "s/1.*$//g")
   echo ${spec1} vs. ${spec2}
 
-  ## Get reciprocal sequences for each species into BED format:
+  ## Get peaks for each species into BED format:
   awk -v pattern="${spec1}1.0." -F"," 'NR>1{gsub(pattern, "", $1); print $1, $3, $4}' OFS='\t' $ea > spec1.bed
   awk -v pattern="${spec2}1.0." -F"," 'NR>1{gsub(pattern, "", $6); print $6, $8, $9}' OFS='\t' $ea > spec2.bed
 
@@ -20,14 +20,14 @@ for ea in *csv; do
   gff2="/Users/rebecca/sudmant/analyses/myotis/data/genomes/bat_genomes/gff_final_curated/${spec2}1_finalAnnotation.gff3"
 
   if [ $(head $gff1 | grep -c SCAF) -gt 0 ]; then 
-    sed -i.backup  "s/SCAF/SUPER/g" $gff1
+    sed -i.backup "s/SCAF/SUPER/g" $gff1
   fi
   if [ $(head $gff2 | grep -c SCAF) -gt 0 ]; then 
     sed -i.backup "s/SCAF/SUPER/g" $gff2
   fi
 
-  $bedtools2 intersect -wb -a $gff1 -b spec1.bed > ../../contextualize_best_hits/resources/${spec1}_vs_${spec2}_best_hits_gene_annotations.tsv
-  $bedtools2 intersect -wb -a $gff2 -b spec2.bed > ../../contextualize_best_hits/resources/${spec2}_vs_${spec1}_best_hits_gene_annotations.tsv 
+  $bedtools2 intersect -wb -a $gff1 -b spec1.bed > ../../contextualize_best_hits/resources/genes/${spec1}_vs_${spec2}_best_hits_genes.tsv
+  $bedtools2 intersect -wb -a $gff2 -b spec2.bed > ../../contextualize_best_hits/resources/genes/${spec2}_vs_${spec1}_best_hits_genes.tsv
   
   ## Cross ref. reciprocal sequences with TEs: 
 
@@ -36,14 +36,14 @@ for ea in *csv; do
 
   ## Get TE annotations into BED format:
   if [ ! -f ../../contextualize_best_hits/resources/${spec1}_TEs.bed ]; then
-    awk 'NR>3{gsub("SCAF", "SUPER", $5); print $5, $6, $7, $1, $2, $9, $11}' OFS='\t' $anno1 > ../../contextualize_best_hits/resources/${spec1}_TEs.bed
+    awk 'NR>3{gsub("SCAF", "SUPER", $5); print $5, $6, $7, $1, $2, $9, $11}' OFS='\t' $anno1 > ../../contextualize_best_hits/resources/TEs/${spec1}_TEs.bed
   fi
   if [ ! -f ../../contextualize_best_hits/resources/${spec2}_TEs.bed ]; then
-    awk 'NR>3{gsub("SCAF", "SUPER", $5); print $5, $6, $7, $1, $2, $9, $11}' OFS='\t' $anno2 > ../../contextualize_best_hits/resources/${spec2}_TEs.bed
+    awk 'NR>3{gsub("SCAF", "SUPER", $5); print $5, $6, $7, $1, $2, $9, $11}' OFS='\t' $anno2 > ../../contextualize_best_hits/resources/TEs/${spec2}_TEs.bed
   fi
 
-  $bedtools2 intersect -wb -a ../../contextualize_best_hits/resources/${spec1}_TEs.bed -b spec1.bed > ../../contextualize_best_hits/resources/${spec1}_vs_${spec2}_best_hits_TE_annotations.tsv
-  $bedtools2 intersect -wb -a ../../contextualize_best_hits/resources/${spec2}_TEs.bed -b spec2.bed > ../../contextualize_best_hits/resources/${spec2}_vs_${spec1}_best_hits_TE_annotations.tsv
+  $bedtools2 intersect -wb -a ../../contextualize_best_hits/resources/TEs/${spec1}_TEs.bed -b spec1.bed > ../../contextualize_best_hits/resources/TEs/${spec1}_vs_${spec2}_best_hits_TEs.tsv
+  $bedtools2 intersect -wb -a ../../contextualize_best_hits/resources/TEs/${spec2}_TEs.bed -b spec2.bed > ../../contextualize_best_hits/resources/TEs/${spec2}_vs_${spec1}_best_hits_TEs.tsv
 
   rm spec1.bed spec2.bed
 
