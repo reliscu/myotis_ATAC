@@ -14,17 +14,21 @@ for (( i=0; i<$len; i++ )); do
   echo ${field_names[$i]}
   # Get consensus peaks for working species:
   peaks="/Users/rebecca/sudmant/analyses/myotis/data/ATAC-seq/genes/${field_names[$i]}/Consensus_Peaks_Annotations_Accross_All_Samples.csv"
-  if [ grep -c "Thy" ${field_names[$i]} ]; then
+  if [ $(echo ${field_names[$i]} | grep -c "Thy") -gt 0  ]; then
     peaks="/Users/rebecca/sudmant/analyses/myotis/data/ATAC-seq/genes/${field_names[$i]}/Consensus_Peaks_Annotations_Accross_All_Samples_patched.csv"
+    awk -F"\t" 'NR>1{gsub("SCAF", "SUPER", $2); print}' OFS='\t' $peaks > peaks.bed
+  else 
+    # Get peaks into BED format:
+    awk -F"\t" 'NR>1{gsub("SCAF", "SUPER", $2); print $2, $3, $4, $1}' OFS='\t' $peaks > peaks.bed
   fi
-  # Get peaks into BED format:
-  awk -F"\t" 'NR>1{gsub("SCAF", "SUPER", $2); print $2, $3, $4, $1}' OFS='\t' $peaks > peaks.bed
   for hits in ${abbr_names[$i]}*; do
     # Get reciprocal sequences into BED format:
     awk -v pattern="${abbr_names[$i]}1.0." -F"," 'NR>1{gsub(pattern, "", $1); print $1, $3, $4}' OFS='\t' $hits > hits.bed
     # Intersect peaks with reciprocal regions:
-    $bedtools2 intersect -wb -a peaks.bed -b hits.bed > ../../contextualize_best_hits/resources/peaks/$(echo $hits | sed 's/.csv/_peaks.tsv/')
+    $bedtools2 intersect -wb -a peaks.bed -b hits.bed > ../../02_annotate_best_hits/resources/peaks/$(echo $hits | sed 's/.csv/_peaks.tsv/')
     rm hits.bed
   done
- rm peaks.bed
+  rm peaks.bed
 done
+
+# awk 'NR >= 12290 && NR <= 12294' peaks.bed
