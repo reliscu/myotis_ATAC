@@ -9,3 +9,5 @@ for ea in ${abbr_names[@]}; do
   faidx /Users/rebecca/sudmant/analyses/myotis/data/genomes/bat_genomes/${ea}1.cleaned.hapheader.fa \
     -i chromsizes | sed "s/SCAF/SUPER/" | sed "s/#0#/.0./" | sed "s/${ea}1.0.//g" > ${ea}_chromsizes
 done
+
+# awk 'NR>1{print $1}' mMyoAui1_finalAnnotation.gff3 | sort | uniq
