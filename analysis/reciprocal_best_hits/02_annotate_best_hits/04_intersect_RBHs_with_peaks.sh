@@ -23,9 +23,9 @@ for (( i=0; i<$len; i++ )); do
   fi
   for hits in ${abbr_names[$i]}*; do
     # Get reciprocal sequences into BED format:
-    awk -v pattern="${abbr_names[$i]}1.0." -F"," 'NR>1{gsub(pattern, "", $1); print $1, $3, $4}' OFS='\t' $hits > hits.bed
+    awk -F"," 'NR>1{gsub(pattern, "", $1); print $3, $4, $5}' OFS='\t' $hits > hits.bed
     # Intersect peaks with reciprocal regions:
-    $bedtools2 intersect -wb -a peaks.bed -b hits.bed > ../../02_annotate_best_hits/resources/peaks/$(echo $hits | sed 's/.csv/_peaks.tsv/')
+    $bedtools2 intersect -a peaks.bed -b hits.bed > ../../02_annotate_best_hits/resources/$(echo $hits | sed 's/.csv/_peaks.tsv/')
     rm hits.bed
   done
   rm peaks.bed
