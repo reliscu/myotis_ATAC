@@ -58,7 +58,8 @@ spec_intersect_fn <- function(spec_subj_paf, spec_query_paf, spec.no) {
   temp_query <- temp_query[temp_query$ID %in% temp_subj$ID,]
   temp_subj <- temp_subj[match(temp_query$ID, temp_subj$ID),]
   spec_intersect <- cbind(temp_query$Name, temp_subj)
-  colnames(spec_intersect)[1:2] <- paste0(paste0("Spec", spec.no), c("_Query_Name", "_Subject_Name"))
+  colnames(spec_intersect)[1:2] <- c("Query_ID", "Subject_ID")
+  colnames(spec_intersect) <- paste0("Spec", spec.no, "_", colnames(spec_intersect)) 
   
   return(spec_intersect)
   
