@@ -6,7 +6,7 @@ bedtools2=/Users/rebecca/programs/bedtools2/bin/bedtools
 gtf_dir=/Users/rebecca/sudmant/analyses/myotis/data/genomes/bat_genomes/gff_final_curated/final_anno
 fa_dir=/Users/rebecca/sudmant/analyses/myotis/data/genomes/bat_genomes/repeatMasker
   
-# Pad gene annotations so that feature is extended 5000 bps upstream
+# Pad gene annotations so that feature is extended 5000 bps upstream:
 
 for (( i=0; i<$len; i++ )); do
   spec1=${abbr_names[$i]}
@@ -24,7 +24,7 @@ for (( i=0; i<$len; i++ )); do
   fi
 done
 
-# Pad gene annotations upstream N bps, and end at the first exon 
+# Pad gene annotations upstream N bps, and end at the first exon:
 
 nbps=5000
 
@@ -41,7 +41,7 @@ for (( i=0; i<$len; i++ )); do
   rm temp.gff3
 done
    
-# Pad TE annotations so that feature is extended 2000 bps upstream
+# Pad TE annotations so that feature is extended 2000 bps upstream:
   
 for (( i=0; i<$len; i++ )); do
   spec1=${abbr_names[$i]}
