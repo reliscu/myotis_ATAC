@@ -2,7 +2,7 @@ cd /Users/rebecca/sudmant/analyses/myotis/data/pafs
 
 rustybam=/Users/rebecca/programs/rustybam-x86_64-apple-darwin/rustybam
 
-## Note: I don't end up using these trim PAFs just to make sure I maximize the potential for RBHs in the following steps
+## Note: I don't end up using these trimmed PAFs... I want to maximize the potential for finding RBHs in the following steps
 
 for ea in *paf; do
   echo $ea

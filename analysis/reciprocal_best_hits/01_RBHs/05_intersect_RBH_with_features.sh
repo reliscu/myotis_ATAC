@@ -1,6 +1,6 @@
-# Annotate peaks in reciprocal regions with nearby gene(s) and TEs:
-
 cd /Users/rebecca/sudmant/analyses/myotis/analysis/reciprocal_best_hits/01_RBHs/results/data
+
+# Annotate peaks in reciprocal regions with nearby gene(s) and TEs:
 
 bedtools2=/Users/rebecca/programs/bedtools2/bin/bedtools
 

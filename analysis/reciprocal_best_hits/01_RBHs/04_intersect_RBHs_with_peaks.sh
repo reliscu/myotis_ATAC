@@ -1,6 +1,6 @@
 cd /Users/rebecca/sudmant/analyses/myotis/analysis/reciprocal_best_hits/01_RBHs/results/data
 
-# Here we subset to peaks to reciprocal best hit regions (unannotated):
+# Here we intersect reciprocal best hit regions with peaks:
 
 field_names=($(awk -F"," 'NR>1{print $1}' /Users/rebecca/sudmant/analyses/myotis/data/myotis_meta.csv))
 abbr_names=($(awk -F"," 'NR>1{print $2}' /Users/rebecca/sudmant/analyses/myotis/data/myotis_meta.csv))
