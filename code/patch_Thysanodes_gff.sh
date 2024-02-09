@@ -1,3 +1,7 @@
+# The chromosome names for Thy were patched in the FASTA file, but not the annotations. 
+# Here I correct this (note: I do NOT modify the gene names themselves)
+
+# That patch
 cd /Users/rebecca/sudmant/analyses/myotis/data/genomes/bat_genomes/gff_final_curated
 
 # Make backup of unmodified GTF

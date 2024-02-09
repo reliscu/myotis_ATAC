@@ -1,4 +1,4 @@
-cd /Users/rebecca/sudmant/analyses/myotis/analysis/species_peaks
+cd /Users/rebecca/sudmant/analyses/myotis/analysis/exploratory/species_peaks
 
 field_names=($(awk -F"," 'NR>1{print $1}' /Users/rebecca/sudmant/analyses/myotis/data/myotis_meta.csv))
 abbr_names=($(awk -F"," 'NR>1{print $2}' /Users/rebecca/sudmant/analyses/myotis/data/myotis_meta.csv))
@@ -22,13 +22,11 @@ for (( i=0; i<$len; i++ )); do
     awk -F"\t" 'NR>1{gsub("SCAF", "SUPER", $2); print $2, $3, $4, $1}' OFS='\t' $peaks > peaks.bed
   fi
   # Intersect peaks with features
-  $bedtools2 intersect -wb -loj -a peaks.bed \
-    -b ${gtf_dir}/${spec1}_genes_5000l_padded.gff3 > results/data/${spec1}_peaks_genes_5000l_padded.tsv
-  $bedtools2 intersect -wb -loj -a peaks.bed \
-    -b ${gtf_dir}/${spec1}_genes_exon1_5000l_padded.gff3 > results/data/${spec1}_peaks_genes_exon1_5000l_padded.tsv
-  $bedtools2 intersect -wb -loj -a peaks.bed \
-    -b ${fa_dir}/${spec1}_TEs_2000l_padded.bed > results/data/${spec1}_peaks_TEs_2000l_padded.tsv
-  $bedtools2 intersect -wb -loj -a peaks.bed \
-    -b ${fa_dir}/${spec1}_TEs_chrom_subset.bed > results/data/${spec1}_peaks_TEs.tsv
+  $bedtools2 intersect -wb -loj -b peaks.bed \
+    -a ${gtf_dir}/${spec1}_genes_5000l_padded.gff3 > results/data/${spec1}_genes_5000l_padded_peaks.tsv
+  $bedtools2 intersect -wb -loj -b peaks.bed \
+    -a ${gtf_dir}/${spec1}_genes_exon1_5000l_padded.gff3 > results/data/${spec1}_genes_exon1_5000l_padded_peaks.tsv
+  $bedtools2 intersect -wb -loj -b peaks.bed \
+    -a ${fa_dir}/${spec1}_TEs_chrom_subset.bed > results/data/${spec1}_TEs_peaks.tsv
   rm peaks.bed
 done

@@ -41,21 +41,21 @@ for (( i=0; i<$len; i++ )); do
   rm temp.gff3
 done
    
-# Pad TE annotations so that feature is extended 2000 bps upstream:
+# # Pad TE annotations so that feature is extended 2000 bps upstream:
   
-for (( i=0; i<$len; i++ )); do
-  spec1=${abbr_names[$i]}
-  echo $spec1
-  fa1="${fa_dir}/${spec1}1_delim.sorted.fas.out"
-  # Get TEs into BED format
-  awk -F" " 'NR>1{gsub("SCAF", "SUPER", $5); print $5, $6, $7, $1, $2, $10, $11}' $fa1 \
-    > ${fa_dir}/${spec1}_TEs.bed
-  # Only chromosomes present in FASTA file can be present in TE annotations
-  chroms=($(awk '{print $1}' /Users/rebecca/sudmant/analyses/myotis/data/${spec1}_chromsizes))
-  grep -wFf <(printf "%s\n" "${chroms[@]}") ${fa_dir}/${spec1}_TEs.bed \
-    > ${fa_dir}/${spec1}_TEs_chrom_subset.bed
-  # Pad annotations
-  $bedtools2 slop -i ${fa_dir}/${spec1}_TEs_chrom_subset.bed \
-    -g /Users/rebecca/sudmant/analyses/myotis/data/${spec1}_chromsizes \
-    -l 2000 -r 0 > ${fa_dir}/${spec1}_TEs_2000l_padded.bed 
-done
+# for (( i=0; i<$len; i++ )); do
+#   spec1=${abbr_names[$i]}
+#   echo $spec1
+#   fa1="${fa_dir}/${spec1}1_delim.sorted.fas.out"
+#   # Get TEs into BED format
+#   awk -F" " 'NR>1{gsub("SCAF", "SUPER", $5); print $5, $6, $7, $1, $2, $10, $11}' $fa1 \
+#     > ${fa_dir}/${spec1}_TEs.bed
+#   # Only chromosomes present in FASTA file can be present in TE annotations
+#   chroms=($(awk '{print $1}' /Users/rebecca/sudmant/analyses/myotis/data/${spec1}_chromsizes))
+#   grep -wFf <(printf "%s\n" "${chroms[@]}") ${fa_dir}/${spec1}_TEs.bed \
+#     > ${fa_dir}/${spec1}_TEs_chrom_subset.bed
+#   # Pad annotations
+#   $bedtools2 slop -i ${fa_dir}/${spec1}_TEs_chrom_subset.bed \
+#     -g /Users/rebecca/sudmant/analyses/myotis/data/${spec1}_chromsizes \
+#     -l 2000 -r 0 > ${fa_dir}/${spec1}_TEs_2000l_padded.bed 
+# done
