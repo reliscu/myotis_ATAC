@@ -1,0 +1,11 @@
+See code/ folder for scripts for:
+
+- Padding annotation files
+- Patching Thysanodes files
+
+See data/ folder for:
+- Annotation files
+- ATAC-seq peaks
+- PAFs
+
+All of my analyses are based on the data in these folders

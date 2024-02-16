@@ -1,0 +1,9 @@
+In those folder I perform analyses to compare the peak status of species over genes and repetative features
+
+Under results/data/, there are files for each species corresponding to:
+- Intersecting peaks with features (rows for all peaks are retained, even if it did not intersect a feature) (named ..._peaks_genes.tsv or ..._peaks_TEs.tsv)
+- Intersecting features with peaks (rows for all features are retained, even if it did not intersect a peak) (named ..._genes_peaks.tsv or ..._TEs_peaks.tsv)
+
+Code for producing figures under results/figures/ are:
+03_peak_summary_plots.ipynb
+05_orthologous_gene_status.ipynb

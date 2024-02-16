@@ -1,0 +1,5 @@
+In this directory I have code to compare the peaks of species at the INDIVIDUAL level
+
+The motivation for this was to see if there were any outlier individuals within a species
+
+See the README in ../species_peaks/ for a more detailed description of files under results/data/

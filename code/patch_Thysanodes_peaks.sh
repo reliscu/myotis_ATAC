@@ -1,5 +1,6 @@
-cd /Users/rebecca/sudmant/analyses/myotis/data/ATAC-seq/genes/Myotis-Thysanodes
 
+# Patch peak calls:
+cd /Users/rebecca/sudmant/analyses/myotis/data/ATAC-seq/genes/Myotis-Thysanodes
 # Make backup of unmodified peak calls
 cp Consensus_Peaks_Annotations_Accross_All_Samples.csv Consensus_Peaks_Annotations_Accross_All_Samples.csv.backup
 # Get peak calls into compatible format:

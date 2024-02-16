@@ -8,6 +8,8 @@ bedtools2=/Users/rebecca/programs/bedtools2/bin/bedtools
 gtf_dir=/Users/rebecca/sudmant/analyses/myotis/data/genomes/bat_genomes/gff_final_curated/final_anno
 fa_dir=/Users/rebecca/sudmant/analyses/myotis/data/genomes/bat_genomes/repeatMasker
 
+## This script takes all the features from a given species and intersects them with peaks; if the feature does not intersect any peaks, the feature row is still maintained in the output
+
 for (( i=0; i<$len; i++ )); do
   spec1=${abbr_names[$i]}
   echo $spec1
