@@ -11,7 +11,9 @@ peak_dir=/Users/rebecca/sudmant/analyses/myotis/data/ATAC-seq/genes
 
 n_perms=1000
 
-# This script takes all the features for a given species and intersects them with peaks; if the feature does not intersect any peaks, the feature row is still maintained in the output
+# This script takes the consensus peaks for a given species, randomly assigns different positions to those peaks, then intersects them with TE annotations.
+# (If the peak does not intersect with any features, the peak row is still maintained in the output.)
+# We can use these results to calculate the probability of seeing a given proportion of peaks in TEs by chance.
 
 for (( i=0; i<$len; i++ )); do
   spec1=${abbr_names[$i]}
@@ -26,16 +28,24 @@ for (( i=0; i<$len; i++ )); do
   fi
   # Only chromosomes present in FASTA file can be present in peak file
   chroms=($(awk '{print $1}' /Users/rebecca/sudmant/analyses/myotis/data/${spec1}_chromsizes))
-  sort -k1,1 peaks.bed | grep -wFf <(printf "%s\n" "${chroms[@]}") > peaks_subset.bed
-  for (( n=0; n<$n_perms; n++ )); do
-    # Shuffle order of peaks
-    $bedtools2 shuffle -i peaks_subset.bed \
+  sort -k1,1 peaks.bed | grep -wFf <(printf "%s\n" "${chroms[@]}") > peaks_chrom_subset.bed
+  # Remove simple repeats from TE annotations:
+  grep -v "Simple_repeat" ${fa_dir}/${spec1}_TEs_chrom_subset.bed > TEs.bed
+  # Intersect peaks with TEs:
+  $bedtools2 intersect -wb -loj \
+    -a peaks_chrom_subset.bed -b TEs.bed \
+    > results/data/${spec1}_peaks_TEs.tsv
+  for (( n=1; n<=$n_perms; n++ )); do
+    # Shuffle positions of peaks:
+    $bedtools2 shuffle \
+      -i peaks_chrom_subset.bed \
       -g /Users/rebecca/sudmant/analyses/myotis/data/${spec1}_chromsizes \
-      -chrom > peaks_perm.bed
-    # Intersect peaks with features
-    $bedtools2 intersect -wb -loj -b peaks_perm.bed \
-      -a ${fa_dir}/${spec1}_TEs_chrom_subset.bed \
-        > results/data/permutations/${spec1}_TEs_permuted_peaks_${i}.tsv
-    rm peaks*.bed
+      -seed $n -chrom > peaks_perm.bed
+    # Intersect shuffled peaks with features
+    $bedtools2 intersect -wb -loj \
+      -a peaks_perm.bed -b TEs.bed \
+      > results/data/permutations/${spec1}_TEs_permuted_peaks_${n}.tsv
+    rm peaks_perm.bed
   done
+  rm peaks*.bed TEs.bed
 done
